@@ -8,22 +8,19 @@ int main(int ac, char **av)
 
     if (ac != 2)
     {
-        std::cout << "Argument not valid : ./btc <file>" << std::endl;
+        std::cout << "Error: could not open file." << std::endl;
         return 0;
     }
-    std::ifstream file("data.csv");
-    if (!file.is_open())
+    try
     {
-        std::cout << "File not opened" << std::endl;
-        return 0;
+        btc.process_input(av[1]);
+        btc.save_data();
     }
-    while (getline(file, line))
+    catch(const std::exception& e)
     {
-        float value = static_cast<float>(line[line.size() - 1]);
-        line = line.substr(0, 10);
-        btc.addstr(line, value);
+        std::cerr << e.what() << '\n';
     }
-    btc.print();
+    
     
     return 0;
 }

@@ -13,8 +13,8 @@ int main(int ac, char **av)
     }
     try
     {
-        btc.process_input(av[1]);
         btc.save_data();
+        btc.process_input(av[1]);
     }
     catch(const std::exception& e)
     {

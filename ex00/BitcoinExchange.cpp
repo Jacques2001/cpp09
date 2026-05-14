@@ -46,13 +46,69 @@ bool BitcoinExchange::check_month_day(int year, int month, int day)
         return 0;
 }
 
+bool BitcoinExchange::check_format(std::string input)
+{
+    int i = 0;
+    for (; i < 4; i++)
+    {
+        if (!std::isdigit(input[i]))
+            return 1;
+    }
+    i++;
+    for (; i < 7; i++)
+    {
+        if (!std::isdigit(input[i]))
+            return 1;
+    }
+    i++;
+    for(; i < 10; i++)
+    {
+        if (!std::isdigit(input[i]))
+            return 1;
+    }
+    if (input[++i] != '|')
+        return 1;
+    // parse value
+    std::cout << input[i] << std::endl;
+    return 0;
+}
+
 void BitcoinExchange::parse_input(std::string input)
 {
     std::string date = input.substr(0, 10);
-    int year = std::atoi(input.substr(0, input.find('-')).c_str());
-    int month = std::atoi(input.substr(input.find('-') + 1).c_str());
-    int day = std::atoi(input.substr(input.rfind('-') + 1).c_str());
-    double value = std::strtod(input.substr(input.find('|') + 1).c_str(), NULL);
+    if (check_format(input))
+    {
+        std::cout << "Error: invalid format" << std::endl;
+        return ;
+    }
+    size_t pos = input.find('-');
+    if (pos == std::string::npos)
+    {
+        std::cout << "Error: not found" << std::endl;
+        return ;
+    }
+    int year = std::atoi(input.substr(0, pos).c_str());
+    pos = input.find('-') + 1;
+    if (pos == std::string::npos)
+    {
+        std::cout << "Error: not found" << std::endl;
+        return ;
+    }
+    int month = std::atoi(input.substr(pos).c_str());
+    pos = input.rfind('-') + 1;
+    if (pos == std::string::npos)
+    {
+        std::cout << "Error: not found" << std::endl;
+        return ;
+    }
+    int day = std::atoi(input.substr(pos).c_str());
+    pos = input.find('|') + 1;
+    if (pos == std::string::npos)
+    {
+        std::cout << "Error: not found" << std::endl;
+        return ;
+    }
+    double value = std::strtod(input.substr(pos).c_str(), NULL);
     if (year < 2009 || year > 2026 || check_month_day(year, month, day) == 1)
         std::cout << "Error: bad input => " << input.substr(0, 10) << std::endl;
     else if (value < 0)
@@ -71,7 +127,6 @@ void BitcoinExchange::parse_input(std::string input)
         std::cout << value * it->second << std::endl;
     }
 }
-
 
 void BitcoinExchange::process_input(char *av)
 {

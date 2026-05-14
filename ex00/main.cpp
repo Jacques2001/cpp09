@@ -2,7 +2,6 @@
 
 int main(int ac, char **av)
 {
-    (void)av;
     BitcoinExchange btc;
     std::string line;
 
@@ -19,8 +18,6 @@ int main(int ac, char **av)
     catch(const std::exception& e)
     {
         std::cerr << e.what() << '\n';
-    }
-    
-    
+    } 
     return 0;
 }

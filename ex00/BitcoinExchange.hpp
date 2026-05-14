@@ -18,6 +18,7 @@ class BitcoinExchange
         std::map<std::string, float> _map;
         bool isLeapYear(int year);
         bool check_month_day(int year, int month, int day);
+        bool check_format(std::string input);
         void parse_input(std::string input);
 
     public :

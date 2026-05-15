@@ -16,6 +16,8 @@ class BitcoinExchange
 {
     private :
         std::map<std::string, float> _map;
+        BitcoinExchange(const BitcoinExchange &other);
+        BitcoinExchange &operator=(const BitcoinExchange &other);
         bool isLeapYear(int year);
         bool check_month_day(int year, int month, int day);
         bool check_format(std::string input);
@@ -23,8 +25,6 @@ class BitcoinExchange
 
     public :
         BitcoinExchange();
-        BitcoinExchange(const BitcoinExchange &other);
-        BitcoinExchange &operator=(const BitcoinExchange &other);
         ~BitcoinExchange();
         void save_data();
         void process_input(char *av);

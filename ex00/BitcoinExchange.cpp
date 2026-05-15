@@ -1,23 +1,7 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange()
-{
-}
-
-BitcoinExchange::BitcoinExchange(const BitcoinExchange &other)
-{
-    (void)other;
-}
-
-BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
-{
-    (void)other;
-    return *this;
-}
-
-BitcoinExchange::~BitcoinExchange()
-{
-}
+BitcoinExchange::BitcoinExchange() {}
+BitcoinExchange::~BitcoinExchange() {}
 
 bool BitcoinExchange::isLeapYear(int year)
 {
@@ -68,8 +52,13 @@ bool BitcoinExchange::check_format(std::string input)
     }
     if (input[++i] != '|')
         return 1;
-    // parse value
-    std::cout << input[i] << std::endl;
+    i += 2;
+    for (; input[i]; i++)
+    {
+        if (!std::isdigit(input[i]) && input[i] != '.' && input[i] != '-' &&
+            input[i] != '+')
+            return 1;
+    }
     return 0;
 }
 
@@ -128,6 +117,13 @@ void BitcoinExchange::parse_input(std::string input)
     }
 }
 
+void parse_line(std::string line)
+{
+    if (line != "date | value")
+        throw std::runtime_error("Error: first line format is wrong");
+}
+
+
 void BitcoinExchange::process_input(char *av)
 {
     std::string line;
@@ -136,12 +132,9 @@ void BitcoinExchange::process_input(char *av)
     if (!file.is_open())
         throw std::runtime_error("Error: file not found");
     getline(file, line);
+    parse_line(line);
     while (getline(file, line))
-    {
-        if (line.empty())
-            throw std::runtime_error("Error: line empty");
         parse_input(line);
-    }
 }
 
 void BitcoinExchange::save_data()
@@ -153,8 +146,6 @@ void BitcoinExchange::save_data()
     getline(file, line);
     while (getline(file, line))
     {
-        if (line.empty())
-            throw std::runtime_error("Error: line empty");
         std::string date = line.substr(0, 10);
         std::string bef_conv = line.substr(11);
         double value = std::strtod(bef_conv.c_str(), NULL);

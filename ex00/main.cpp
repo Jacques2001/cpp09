@@ -2,8 +2,7 @@
 
 int main(int ac, char **av)
 {
-    BitcoinExchange btc;
-    std::string line;
+    // BitcoinExchange btc;
 
     if (ac != 2)
     {
@@ -12,6 +11,7 @@ int main(int ac, char **av)
     }
     try
     {
+        BitcoinExchange btc;
         btc.save_data();
         btc.process_input(av[1]);
     }

@@ -11,8 +11,7 @@ int main(int ac, char **av)
     {
         std::string input(av[1]);
         RPN pol;
-        pol.parse(input);
-        pol.execute();
+        pol.parse_and_execute(input);
     }
     catch (std::exception &e)
     {

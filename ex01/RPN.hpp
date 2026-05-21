@@ -5,18 +5,18 @@
 #include <iomanip>
 #include <stack>
 #include <sstream>
+#include <algorithm>
 
 class RPN
 {
     private :
-        std::stack<std::string> _stk;
+        std::stack<int> _stk;
     public :
         RPN();
         RPN(const RPN &other);
         RPN &operator=(const RPN &other);
         ~RPN();
-        void parse(std::string input);
-        void execute();
+        void parse_and_execute(std::string input);
 };
 
 

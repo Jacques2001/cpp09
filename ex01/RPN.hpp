@@ -11,10 +11,10 @@ class RPN
 {
     private :
         std::stack<int> _stk;
-    public :
-        RPN();
         RPN(const RPN &other);
         RPN &operator=(const RPN &other);
+    public :
+        RPN();
         ~RPN();
         void parse_and_execute(std::string input);
 };

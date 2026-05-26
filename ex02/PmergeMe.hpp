@@ -11,10 +11,13 @@
 class PmergeMe
 {
     private :
-        std::vector<int> _vec;
-        std::deque<int> _deq;
+        std::vector<int> v;
+        std::deque<int> d;
         PmergeMe(const PmergeMe &other);
         PmergeMe &operator=(const PmergeMe &other);
+        template <typename T>
+        void print(T c, std::string input);
+        void sort_vector();
     public :
         PmergeMe();
         ~PmergeMe();

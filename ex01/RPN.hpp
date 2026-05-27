@@ -10,7 +10,7 @@
 class RPN
 {
     private :
-        std::stack<int> _stk;
+        std::stack<long> _stk;
         RPN(const RPN &other);
         RPN &operator=(const RPN &other);
     public :

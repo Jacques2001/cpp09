@@ -1,4 +1,5 @@
 #include "RPN.hpp"
+#include <climits>
 
 RPN::RPN() {}
 RPN::~RPN() {}
@@ -33,9 +34,9 @@ void RPN::parse_and_execute(std::string input)
         {
             if (_stk.size() < 2)
                 throw std::runtime_error("Error");
-            int first = _stk.top();
+            long first = _stk.top();
             _stk.pop();
-            int second = _stk.top();
+            long second = _stk.top();
             _stk.pop();
             if (token == "-")
                 _stk.push(second - first);
@@ -49,6 +50,8 @@ void RPN::parse_and_execute(std::string input)
                     throw std::runtime_error("Error");
                 _stk.push(second / first);
             }
+            if (_stk.top() > INT_MAX || _stk.top() < INT_MIN)
+                throw std::runtime_error("Error");
         }
         else
             throw std::runtime_error("Error");

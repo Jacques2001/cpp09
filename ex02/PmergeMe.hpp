@@ -16,8 +16,8 @@ class PmergeMe
         PmergeMe(const PmergeMe &other);
         PmergeMe &operator=(const PmergeMe &other);
         template <typename T>
-        void print(T c, std::string input);
-        void sort_vector();
+        void print(const T &c, const std::string &input);
+        void sort_vector(std::vector<int> &winners);
     public :
         PmergeMe();
         ~PmergeMe();

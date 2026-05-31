@@ -7,7 +7,9 @@
 #include <vector>
 #include <deque>
 #include <climits>
-#include <chrono>
+#include <sstream>
+#include <ctime>
+#include <sys/time.h>
 
 class PmergeMe
 {
@@ -18,11 +20,12 @@ class PmergeMe
         PmergeMe &operator=(const PmergeMe &other);
         template <typename T>
         void print(const T &c, const std::string &input);
-        void sort_vector(std::vector<int> &winners);
+        void sort_vector(std::vector<int> &numbers);
+        void sort_deque(std::deque<int> &numbers);
     public :
         PmergeMe();
         ~PmergeMe();
-        void parse(char **av);
+        void parse_and_sort(char **av);
 };
 
 #endif

@@ -216,11 +216,11 @@ void PmergeMe::parse_and_sort(char **av)
         char *end;
         long int value = std::strtol(av[i], &end, 10);
         if (value < 0)
-            throw std::runtime_error("Error: negative value");
+            throw std::runtime_error("Error");
         if (value > INT_MAX)
-            throw std::runtime_error("Error: greater than int max");
+            throw std::runtime_error("Error");
         if (*end)
-            throw std::runtime_error("Error: format invalid");
+            throw std::runtime_error("Error");
         v.push_back(value);
         d.push_back(value);
     }
@@ -240,7 +240,7 @@ void PmergeMe::parse_and_sort(char **av)
     gettimeofday(&after, NULL);
     long sec = after.tv_usec - begin.tv_usec;
     std::cout << "Time to process a range of " << v.size()
-              << " elements with std::vector : " 
+              << " elements with std::deque : " 
               << sec << " us" << std::endl;
 }
 

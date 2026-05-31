@@ -57,9 +57,12 @@ void PmergeMe::sort_vector(std::vector<int> &numbers)
     }
     sort_vector(winners);
   
+    // push le premier perdant et le reste des gagnants dans le vector main
+    // je declare une pair de pend pour pouvoir savoir quel perdant va avec quel gagnant
     std::vector<int> main;
     std::vector<std::pair<int, int> > pend;
-    for (std::vector<std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); it++)
+    for (std::vector<std::pair<int, int> >::iterator it = 
+        pairs.begin(); it != pairs.end(); it++)
     {
         if (it->second == winners[0])
         {
@@ -70,9 +73,11 @@ void PmergeMe::sort_vector(std::vector<int> &numbers)
         }
     }
 
+    // push tous les perdant dans le vector pend
     for (size_t i = 1; i < winners.size(); i++)
     {
-        for (std::vector<std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); it++)
+        for (std::vector<std::pair<int, int> >::iterator it = 
+            pairs.begin(); it != pairs.end(); it++)
         {
             if (it->second == winners[i])
             {
@@ -83,34 +88,35 @@ void PmergeMe::sort_vector(std::vector<int> &numbers)
             }
         }
     }
+
+    // suite Jacobsthal
     int i = 3;
-    while (!pend.empty())
+    size_t inserted = 0;
+    while (inserted < pend.size())
     {
-        int x = Jacobsthal(i);
-        while (x != Jacobsthal(i - 1))
+        int x = std::min(Jacobsthal(i), static_cast<int>(pend.size()));
+        while (x >= Jacobsthal(i - 1))
         {
-            // j'ai trouve le lower bound, il faut maintenant que compare tout ce qui se trouve avant ce lower bound
-            std::lower_bound(main.begin(), std::find(main.begin(), main.end(), pend[x].second), pend[x].first);
+            std::vector<int>::iterator it = 
+            std::lower_bound(main.begin(), 
+            std::find(main.begin(), main.end(), 
+            pend[x - 1].second), pend[x - 1].first);
+            main.insert(it, pend[x - 1].first);
+            inserted++;
             x--;
         }
         i++;
     }
     
+    // traitement du cas special
     if (odd == true)
     {
-        //inserer la derniere valeur dans le main
+        std::vector<int>::iterator it = 
+        std::lower_bound(main.begin(), main.end(), last);
+        main.insert(it, last);
     }
-    
-    // for (size_t i = 0; i < pend.size() && ; i++)
-    // {
 
-    // }
-    // inserer les pend dans main avec la suite de jacobsthal
-    
-
-
-    // derniere ligne
-    // numbers = main;
+    numbers = main;
 }
 
 void PmergeMe::parse(char **av)
@@ -128,6 +134,7 @@ void PmergeMe::parse(char **av)
         v.push_back(value);
         d.push_back(value);
     }
-    // print(v, "begin");
+    print(v, "begin");
     sort_vector(v);
+    print(v, "end");
 }

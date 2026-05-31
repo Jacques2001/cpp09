@@ -209,8 +209,6 @@ void PmergeMe::sort_deque(std::deque<int> &numbers)
 
 void PmergeMe::parse_and_sort(char **av)
 {
-    struct timeval start, end;
-
     for (int i = 1; av[i]; i++)
     {
         char *end;
@@ -224,23 +222,34 @@ void PmergeMe::parse_and_sort(char **av)
         v.push_back(value);
         d.push_back(value);
     }
+
+    struct timeval start, end;
+
     print(v, "begin");
     gettimeofday(&start, NULL);
     sort_vector(v);
     gettimeofday(&end, NULL);
     print(v, "end");
-    long usec = end.tv_usec - start.tv_usec;
+
+    long vseconds = end.tv_sec - start.tv_sec;
+    long vmicroseconds = end.tv_usec - start.tv_usec;
+    long velapsed_us = (vseconds * 1000000) + vmicroseconds;
+
     std::cout << "Time to process a range of " << v.size()
               << " elements with std::vector : " 
-              << usec << " us" << std::endl;
+              << velapsed_us << " us" << std::endl;
 
     struct timeval begin, after;
+    
     gettimeofday(&begin, NULL);
     sort_deque(d);
     gettimeofday(&after, NULL);
-    long sec = after.tv_usec - begin.tv_usec;
-    std::cout << "Time to process a range of " << v.size()
+    
+    long seconds = after.tv_sec - begin.tv_sec;
+    long microseconds = after.tv_usec - begin.tv_usec;
+    long elapsed_us = (seconds * 1000000) + microseconds;
+    
+    std::cout << "Time to process a range of " << d.size()
               << " elements with std::deque : " 
-              << sec << " us" << std::endl;
+              << elapsed_us << " us" << std::endl;
 }
-
